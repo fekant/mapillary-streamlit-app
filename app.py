@@ -17,11 +17,12 @@ def load_cnn_model():
     return load_model(MODEL_FILE)
 
 model = load_cnn_model()
-THRESHOLD = 0.8
 IMG_SIZE = (128, 128)
 
 st.title("🚧 Mapillary Road Sign Classifier")
 st.write("Ανεβάστε εικόνα πινακίδας για ταξινόμηση: `damaged` ή `not_damaged`")
+
+threshold = st.slider("📊 Threshold ταξινόμησης (damaged):", 0.0, 1.0, 0.8, 0.01)
 
 uploaded_file = st.file_uploader("Επιλέξτε εικόνα...", type=["jpg", "jpeg", "png"])
 if uploaded_file:
@@ -33,7 +34,8 @@ if uploaded_file:
     img_array = np.expand_dims(img_array, axis=0)
 
     prob = model.predict(img_array)[0][0]
-    label = "damaged" if prob >= THRESHOLD else "not_damaged"
+    label = "damaged" if prob >= threshold else "not_damaged"
 
     st.markdown(f"### 🔎 Prediction: `{label}`")
     st.write("Probability: {:.3f}".format(prob))
+    st.write("Threshold: {:.2f}".format(threshold))
