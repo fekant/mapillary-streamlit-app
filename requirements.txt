@@ -2,3 +2,6 @@ streamlit
 tensorflow
 pillow
 gdown
+pandas
+folium
+streamlit-folium
